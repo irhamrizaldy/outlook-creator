@@ -53,23 +53,38 @@ class Automate():
         # select.select_by_visible_text(Users[i]['year'])
         driver.find_element_by_id("iSignupAction").click()
         sleep(3)
-        # btnBack = WebDriverWait(driver, 300).until(ec.visibility_of_element_located((By.ID, "idBtn_Back")))
-        # btnBack.click()
-        # sleep(10)
+        btnBack = WebDriverWait(driver, 300).until(ec.visibility_of_element_located((By.ID, "idBtn_Back")))
+        btnBack.click()
+        sleep(5)
 
-        # db_connection = mysql.connector.connect (
-        #     host = "localhost",
-        #     user = "root",
-        #     password = "",
-        #     database = "outlook"
-        # )
+        # insert json/data users to mysql
+        file_json = open("Output.json")
+        data = json.loads(file_json.read())
+
+        # value of json
+        fname = data['0']['name']
+        lname = data['0']['lastname'] 
+        email = data['0']['email']
+        pwd = data['0']['password']
+        day = data['0']['day']
+        month = data['0']['month']
+        year = data['0']['year']
+        country = data['0']['country']
+
+        # connection mysql
+        db_connection = mysql.connector.connect (
+            host = "localhost",
+            user = "root",
+            password = "",
+            database = "outlook"
+        )
         
-        # db_cursor = db_connection.cursor()
-        # outlook_insert_query = "INSERT INTO users (id, firstname, lastname, email, password, month, day, year, country) VALUES ()"
-        
-        # db_cursor.execute(outlook_insert_query)
-        # db_connection.commit()
-        # print(db_cursor.rowcount, "Record Inserted")
+        db_cursor = db_connection.cursor()
+        outlook_insert_query = "INSERT INTO users (id, firstname, lastname, email, password, month, day, year, country) VALUES('', '"+fname+"', '"+lname+"', '"+email+"', '"+pwd+"', '"+month+"', '"+day+"', '"+year+"', '"+country+"')"
+
+        db_cursor.execute(outlook_insert_query)
+        db_connection.commit()
+        print(db_cursor.rowcount, "Record Inserted")
         # elem = driver.find_element_by_name("ConfirmPasswd")
         # elem.send_keys(Users[i]['password'])
         # elem.send_keys(Keys.RETURN)
@@ -203,7 +218,7 @@ def main():
     #question1 = input("Do you want to generate a file?\nYes/No\n>>>")
     #yesvalues = ("yes", "YES", "Yes", "Y", "y", "SI", "Si", "si", "S", "s")
     
-    amount =2 # total number of accounts to be created
+    amount =1 # total number of accounts to be created
     passwdlength = 12 #password length
 
     #if question1 in yesvalues:

@@ -93,7 +93,7 @@ class Automate():
         self.Users = Users
         for j in range(len(self.Users)):
             self.run(j)
-            question1 = input("Enter y when you have completed entering captcha>>>") #cant ssolve captcha solving yet
+            question1 = input("Enter y when you have completed registration>>>")
 class randomData():
     numbers = string.digits
     letters = string.ascii_lowercase

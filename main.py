@@ -7,6 +7,8 @@ import json
 import string
 import random
 import mysql.connector
+import requests
+from requests.structures import CaseInsensitiveDict
 from selenium import webdriver
 #from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.select import Select
@@ -70,6 +72,17 @@ class Automate():
         month = data['0']['month']
         year = data['0']['year']
         country = data['0']['country']
+
+        # json post curl
+        url = "https://reqbin.com/echo/post/json"
+        headers = CaseInsensitiveDict()
+        headers["Accept"] = "application/json"
+        headers["Content-Type"] = "application/json"
+        data = '{"login":'+email+',"password":"password112233"}'
+
+        resp = requests.post(url, headers=headers, data=data)
+        print("Data:", data)
+        print("Status:", resp.status_code)
 
         # connection mysql
         db_connection = mysql.connector.connect (
